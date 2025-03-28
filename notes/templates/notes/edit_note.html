@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Note</title>
+    <link rel="stylesheet" href="{% static 'notes/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Редагувати нотатку</h1>
+
+        <form method="POST" class="note-form">
+            {% csrf_token %}
+            <input type="text" name="title" value="{{ note.title }}" required>
+            <textarea name="content" required>{{ note.content }}</textarea>
+            <button type="submit">Зберегти</button>
+        </form>
+
+        <a href="{% url 'index' %}" style="color:white; text-decoration:underline;">← Повернутись назад</a>
+    </div>
+</body>
+</html>

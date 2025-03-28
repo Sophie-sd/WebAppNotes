@@ -1,0 +1,129 @@
+body {
+    margin: 0;
+    font-family: 'Rubik', sans-serif;
+    background: linear-gradient(-45deg, #ff1e56, #ff7300, #ff1e56, #ff7300);
+    background-size: 300% 300%;
+    animation: bgFlow 10s ease infinite;
+    color: white;
+}
+
+textarea {
+    resize: none;
+    padding: 15px;
+    font-size: 1em;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    margin-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@keyframes bgFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 60px auto;
+    text-align: center;
+}
+
+.title {
+    font-size: 3em;
+    margin-bottom: 30px;
+    animation: fadeIn 2s ease-out;
+}
+
+.note-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 40px;
+    animation: fadeInUp 1.5s ease-out;
+}
+
+.note-form input,
+.note-form textarea {
+    padding: 15px;
+    font-size: 1em;
+    border-radius: 10px;
+    border: none;
+}
+
+.note-form button {
+    background-color: white;
+    color: #ff1e56;
+    padding: 12px;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.note-form button:hover {
+    background-color: #ff7300;
+    color: white;
+}
+
+.notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeInUp 2s ease;
+}
+
+.note-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: left;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.note-card:hover {
+    transform: scale(1.02);
+}
+
+.note-card h2 {
+    margin-top: 0;
+    color: #fff;
+}
+
+.note-card p {
+    color: #f8f8f8;
+}
+
+.actions {
+    margin-top: 15px;
+}
+
+.actions a {
+    margin-right: 15px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.edit-btn:hover {
+    color: #00ffd5;
+}
+
+.delete-btn:hover {
+    color: #ff4b4b;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

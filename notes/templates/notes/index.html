@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>My Notes</title>
+    <link rel="stylesheet" href="{% static 'notes/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">My notes</h1>
+
+        <form method="POST" class="note-form">
+            {% csrf_token %}
+            <input type="text" name="title" placeholder="Title" required>
+            <textarea name="content" placeholder="The text of the note..." required></textarea>
+            <button type="submit">Create a note</button>
+        </form>
+
+        <div class="notes-list">
+            {% for note in notes %}
+                <div class="note-card">
+                    <h2>{{ note.title }}</h2>
+                    <p>{{ note.content }}</p>
+                    <div class="actions">
+                        <a href="{% url 'edit_note' note.id %}" class="edit-btn">Edit</a>
+                        <a href="{% url 'delete_note' note.id %}" class="delete-btn">Delete</a>
+                    </div>
+                </div>
+            {% empty %}
+                <p>There are no notes yet. Create the first one!</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
