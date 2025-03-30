@@ -20,9 +20,15 @@ textarea {
 }
 
 @keyframes bgFlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .container {
@@ -82,7 +88,7 @@ textarea {
     padding: 20px;
     border-radius: 15px;
     text-align: left;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
 }
 
@@ -119,11 +125,42 @@ textarea {
 }
 
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.btn-trash-icon {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    font-size: 28px;
+    text-decoration: none;
+    background-color: white;
+    color: #ff4d4d;
+    padding: 12px 16px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+    z-index: 999;
+}
+
+.btn-trash-icon:hover {
+    transform: scale(1.15);
+    background-color: #ff4d4d;
+    color: white;
 }

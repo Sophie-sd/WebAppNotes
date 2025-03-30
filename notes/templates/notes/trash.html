@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trash – Deleted Notes</title>
+    <link rel="stylesheet" href="{% static 'notes/style.css' %}">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: 'Segoe UI', sans-serif;
+            color: #fff;
+            text-align: center;
+            background-color: #1a0000;
+            background-image: radial-gradient(circle at 1px 1px, rgba(255, 60, 60, 0.05) 1px, transparent 0),
+            linear-gradient(180deg, rgba(255, 80, 80, 0.2), transparent 70%);
+            background-size: 30px 30px, 100% 200%;
+            background-repeat: repeat, no-repeat;
+            background-attachment: scroll; /* ВАЖЛИВО: scroll, а не fixed */
+            background-position: 0 0, 0 0;
+            animation: moveGlow 10s linear infinite;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: inset 0 0 0px rgba(255, 100, 100, 0.2);
+                background-color: #1a0000;
+            }
+            50% {
+                box-shadow: inset 0 0 100px rgba(255, 80, 80, 0.3);
+                background-color: #2a0000;
+            }
+            100% {
+                box-shadow: inset 0 0 0px rgba(255, 100, 100, 0.2);
+                background-color: #1a0000;
+            }
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 40px;
+            color: #ff4d4d;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+        }
+
+        .btn {
+            padding: 12px 22px;
+            border-radius: 50px;
+            border: none;
+            font-weight: bold;
+            text-decoration: none;
+            margin: 10px;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-restore {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-restore:hover {
+            background-color: #43d17e;
+            transform: scale(1.05);
+        }
+
+        .btn-delete {
+            background-color: #b30000;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #e60000;
+            transform: scale(1.05);
+        }
+
+        .note-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px auto;
+            max-width: 600px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .note-card h2 {
+            color: #ffd6d6;
+            margin-bottom: 10px;
+        }
+
+        .note-card p {
+            color: #fff;
+            font-style: italic;
+        }
+
+        .btn-group {
+            margin-top: 15px;
+        }
+
+        .empty-text {
+            margin-top: 50px;
+            color: #aaa;
+            font-style: italic;
+            font-size: 1.2em;
+        }
+
+        /* Анімація */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Кнопка Back fixed */
+        .btn-back {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #333;
+            color: white;
+            border-radius: 50px;
+            padding: 12px 24px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            z-index: 999;
+        }
+
+        .btn-back:hover {
+            background-color: #555;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+<h1>Deleted Notes</h1>
+
+<div>
+    <a href="{% url 'restore_all_notes' %}" class="btn btn-restore">Restore All</a>
+    <a href="{% url 'permanent_delete_all' %}" class="btn btn-delete">Delete All Permanently</a>
+</div>
+
+{% for note in notes %}
+    <div class="note-card">
+        <h2>{{ note.title }}</h2>
+        <p>{{ note.content }}</p>
+        <div class="btn-group">
+            <a href="{% url 'restore_note' note.id %}" class="btn btn-restore">Restore</a>
+            <a href="{% url 'permanent_delete' note.id %}" class="btn btn-delete">Delete Permanently</a>
+        </div>
+    </div>
+{% empty %}
+    <p class="empty-text">The trash is empty. Nothing to show here!</p>
+{% endfor %}
+
+<a href="{% url 'index' %}" class="btn-back">← Back to Notes</a>
+</body>
+</html>
