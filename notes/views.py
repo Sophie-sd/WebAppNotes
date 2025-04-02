@@ -1,5 +1,3 @@
-import random
-
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -62,30 +60,30 @@ def logout_view(request):
     return redirect('welcome')
 
 
+@login_required
 def index(request):
-    if not request.user.is_authenticated:
-        return redirect('login_register')
-
     if request.method == 'POST':
         title = request.POST.get('title')
         content = request.POST.get('content')
         if title and content:
-            Note.objects.create(title=title, content=content)
+            Note.objects.create(user=request.user, title=title, content=content)
             return redirect('index')
 
-    notes = Note.objects.filter(is_deleted=False).order_by('-created_at')
+    notes = Note.objects.filter(user=request.user, is_deleted=False).order_by('-created_at')
     return render(request, 'notes/index.html', {'notes': notes})
 
 
+@login_required
 def delete_note(request, note_id):
-    note = get_object_or_404(Note, id=note_id)
+    note = get_object_or_404(Note, id=note_id, user=request.user)
     note.is_deleted = True
     note.save()
     return redirect('index')
 
 
+@login_required
 def edit_note(request, note_id):
-    note = get_object_or_404(Note, id=note_id)
+    note = get_object_or_404(Note, id=note_id, user=request.user)
     if request.method == 'POST':
         note.title = request.POST.get('title')
         note.content = request.POST.get('content')
@@ -94,56 +92,54 @@ def edit_note(request, note_id):
     return render(request, 'notes/edit_note.html', {'note': note})
 
 
+@login_required
 def ajax_add_note(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         content = request.POST.get('content')
-        note = Note.objects.create(title=title, content=content)
+        note = Note.objects.create(user=request.user, title=title, content=content)
 
-        if random.choice([True, False]):
-            return JsonResponse({
-                'type': 'json',
-                'note': {
-                    'title': note.title,
-                    'content': note.content,
-                }
-            })
-        else:
-            html = render_to_string('notes/partials/note_card.html', {'note': note})
-            return JsonResponse({
-                'type': 'html',
-                'html': html
-            })
+        html = render_to_string('notes/partials/note_card.html', {'note': note})
+        return JsonResponse({
+            'type': 'html',
+            'html': html
+        })
 
 
+@login_required
 def trash(request):
-    notes = Note.objects.filter(is_deleted=True).order_by('-updated_at')
+    notes = Note.objects.filter(user=request.user, is_deleted=True).order_by('-updated_at')
     return render(request, 'notes/trash.html', {'notes': notes})
 
 
+@login_required
 def restore_note(request, note_id):
-    note = get_object_or_404(Note, id=note_id)
+    note = get_object_or_404(Note, id=note_id, user=request.user)
     note.is_deleted = False
     note.save()
     return redirect('trash')
 
 
+@login_required
 def permanent_delete(request, note_id):
-    note = get_object_or_404(Note, id=note_id)
+    note = get_object_or_404(Note, id=note_id, user=request.user)
     note.delete()
     return redirect('trash')
 
 
+@login_required
 def permanent_delete_all(request):
-    Note.objects.filter(is_deleted=True).delete()
+    Note.objects.filter(user=request.user, is_deleted=True).delete()
     return redirect('trash')
 
 
+@login_required
 def restore_all_notes(request):
-    Note.objects.filter(is_deleted=True).update(is_deleted=False)
+    Note.objects.filter(user=request.user, is_deleted=True).update(is_deleted=False)
     return redirect('trash')
 
 
+@login_required
 def delete_all_notes_forever(request):
-    Note.objects.filter(is_deleted=True).delete()
+    Note.objects.filter(user=request.user, is_deleted=True).delete()
     return redirect('trash')

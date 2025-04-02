@@ -19,32 +19,29 @@
 
     <div id="notes-list">
         {% for note in notes %}
-            <div class="note-card">
-                <h2>{{ note.title }}</h2>
-                <p>{{ note.content }}</p>
-                <div class="actions">
-                    <a href="{% url 'edit_note' note.id %}" class="edit-btn">Edit</a>
-                    <a href="{% url 'delete_note' note.id %}" class="delete-btn">Delete</a>
-                </div>
-            </div>
+            {% include 'notes/partials/note_card.html' %}
         {% empty %}
             <p>There are no notes yet. Create the first one!</p>
         {% endfor %}
+
         <a href="{% url 'logout' %}" style="
-    display: inline-block;
-    padding: 10px 25px;
-    background-color: #ff4b2b;
-    color: white;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 20px;">Go out</a>
+            display: inline-block;
+            padding: 10px 25px;
+            background-color: #ff4b2b;
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;">Go out</a>
     </div>
 </div>
+
 <div style="text-align: right; margin-bottom: 20px;">
     <a href="{% url 'trash' %}" class="btn-trash-icon">🗑️</a>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static 'notes/scripts.js' %}"></script>
 </body>
 </html>
+

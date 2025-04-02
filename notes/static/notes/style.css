@@ -7,18 +7,6 @@ body {
     color: white;
 }
 
-textarea {
-    resize: none;
-    padding: 15px;
-    font-size: 1em;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    margin-bottom: 20px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
 @keyframes bgFlow {
     0% {
         background-position: 0% 50%;
@@ -58,6 +46,10 @@ textarea {
     font-size: 1em;
     border-radius: 10px;
     border: none;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    resize: none; /* Заборона зміни розміру */
 }
 
 .note-form button {
@@ -79,68 +71,93 @@ textarea {
 .notes-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    animation: fadeInUp 2s ease;
+    align-items: center;
+    gap: 40px;
+    padding-bottom: 60px;
 }
 
 .note-card {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 15px;
+    width: 100%;
+    max-width: 700px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(5px);
+    padding: 20px 25px;
+    border-radius: 14px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: rotate(-0.2deg);
     text-align: left;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
+    position: relative;
 }
 
 .note-card:hover {
-    transform: scale(1.02);
+    transform: scale(1.015) rotate(0deg);
+    box-shadow: 0 18px 30px rgba(0, 0, 0, 0.2);
 }
 
 .note-card h2 {
-    margin-top: 0;
+    margin: 0 0 8px;
     color: #fff;
+    font-size: 1.3em;
 }
 
-.note-card p {
-    color: #f8f8f8;
+.note-preview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1em;
+    color: #f0f0f0;
+    margin-bottom: 10px;
 }
 
-.actions {
-    margin-top: 15px;
+.note-full {
+    display: none;
+    white-space: pre-wrap;
+    color: #fff;
+    margin-top: 10px;
 }
 
-.actions a {
-    margin-right: 15px;
-    color: white;
+.note-full.show {
+    display: block;
+}
+
+.note-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+}
+
+/* 🔘 Кнопки-іконки */
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.4em;
+    cursor: pointer;
+    padding: 4px;
+    transition: transform 0.25s ease-in-out;
     text-decoration: none;
-    font-weight: bold;
+    color: inherit;
 }
 
-.edit-btn:hover {
-    color: #00ffd5;
-}
-
+/* ✏️ та 🗑️ — плавне збільшення */
+.edit-btn:hover,
 .delete-btn:hover {
-    color: #ff4b4b;
+    transform: scale(1.5);
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.fade-in {
+    animation: fadeInNote 0.6s ease-out forwards;
 }
 
-@keyframes fadeIn {
-    from {
+@keyframes fadeInNote {
+    0% {
         opacity: 0;
+        transform: translateY(15px) scale(0.97);
     }
-    to {
+    100% {
         opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }
 
@@ -164,3 +181,17 @@ textarea {
     background-color: #ff4d4d;
     color: white;
 }
+
+/* Текст не вилазить за межі картки */
+.note-card p,
+.note-card .note-full {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+
+
+
+
+

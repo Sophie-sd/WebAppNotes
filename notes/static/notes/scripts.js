@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('#add-note-form').on('submit', function (e) {
-        e.preventDefault(); // зупиняємо стандартну відправку форми
+        e.preventDefault();
 
         const formData = $(this).serialize();
 
@@ -9,20 +9,27 @@ $(document).ready(function () {
             url: '/notes/ajax-add/',
             data: formData,
             success: function (response) {
-                // Випадкове рішення — JSON чи HTML
+                let newNote;
+
                 if (response.type === 'json') {
                     const note = response.note;
-                    const newNote = `
-                        <div class="note-card">
+                    newNote = $(`
+                        <div class="note-card fade-in">
                             <h2>${note.title}</h2>
-                            <p>${note.content}</p>
-                        </div>`;
-                    $('#notes-list').prepend(newNote);
+                            <p class="note-preview">${note.content.substring(0, 100)}...</p>
+                            <div class="note-full">${note.content}</div>
+                            <div class="note-actions">
+                                <a href="/edit/${note.id}/" class="icon-btn edit-btn" title="Edit">✏️</a>
+                                <a href="/delete/${note.id}/" class="icon-btn delete-btn" title="Delete">🗑️</a>
+                                <button onclick="toggleNote(this)" class="icon-btn view-btn" title="View full note">📖</button>
+                            </div>
+                        </div>
+                    `);
                 } else if (response.type === 'html') {
-                    $('#notes-list').prepend(response.html);
+                    newNote = $(response.html).addClass('fade-in');
                 }
 
-                // Очищаємо форму
+                $('#notes-list').prepend(newNote);
                 $('#add-note-form').trigger('reset');
             },
             error: function () {
@@ -31,3 +38,21 @@ $(document).ready(function () {
         });
     });
 });
+
+function toggleNote(button) {
+    const card = button.closest('.note-card');
+    const preview = card.querySelector('.note-preview');
+    const full = card.querySelector('.note-full');
+
+    if (preview && full) {
+        preview.classList.toggle('hidden');
+        full.classList.toggle('show');
+    }
+}
+
+
+
+
+
+
+

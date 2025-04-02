@@ -1,4 +1,11 @@
 <div class="note-card">
     <h2>{{ note.title }}</h2>
     <p>{{ note.content }}</p>
+    <div class="actions">
+        <a href="{% url 'edit_note' note.id %}" class="icon-btn edit-btn" title="Edit">✏️</a>
+        <a href="{% url 'delete_note' note.id %}" class="icon-btn delete-btn" title="Delete">🗑️</a>
+    </div>
 </div>
+
+
+
