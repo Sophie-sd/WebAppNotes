@@ -145,6 +145,6 @@ def delete_all_notes_forever(request):
     return redirect('trash')
 
 
-def details_view(request, note_id):
-    note = get_object_or_404(Note, id=note_id)
+def details_view(request, id):
+    note = get_object_or_404(Note, id=id)
     return render(request, 'notes/details.html', {'note': note})

@@ -156,8 +156,8 @@
 <h1>Deleted Notes</h1>
 
 <div>
-    <a href="{% url 'restore_all_notes' %}" class="btn btn-restore">Restore All</a>
-    <a href="{% url 'permanent_delete_all' %}" class="btn btn-delete">Delete All Permanently</a>
+    <a href="{% url 'notes:restore_all_notes' %}" class="btn btn-restore">Restore All</a>
+    <a href="{% url 'notes:permanent_delete_all' %}" class="btn btn-delete">Delete All Permanently</a>
 </div>
 
 {% for note in notes %}
@@ -165,14 +165,14 @@
         <h2>{{ note.title }}</h2>
         <p>{{ note.content }}</p>
         <div class="btn-group">
-            <a href="{% url 'restore_note' note.id %}" class="btn btn-restore">Restore</a>
-            <a href="{% url 'permanent_delete' note.id %}" class="btn btn-delete">Delete Permanently</a>
+            <a href="{% url 'notes:restore_note' note.id %}" class="btn btn-restore">Restore</a>
+            <a href="{% url 'notes:permanent_delete' note.id %}" class="btn btn-delete">Delete Permanently</a>
         </div>
     </div>
 {% empty %}
     <p class="empty-text">The trash is empty. Nothing to show here!</p>
 {% endfor %}
 
-<a href="{% url 'index' %}" class="btn-back">← Back to Notes</a>
+<a href="{% url 'notes:index' %}" class="btn-back">← Back to Notes</a>
 </body>
 </html>

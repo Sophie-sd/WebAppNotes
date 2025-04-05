@@ -1,9 +1,11 @@
-<div class="note-card">
+<a href="{% url 'notes:details' note.id %}" class="note-card-link">
+  <div class="note-card fade-in">
     <h2>{{ note.title }}</h2>
-    <div class="actions">
-        <a href="{% url 'details' note.id %}" class="icon-btn view-btn" title="View">📖</a>
-    </div>
-</div>
+  </div>
+</a>
+  
+
+
 
 
 

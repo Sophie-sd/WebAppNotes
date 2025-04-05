@@ -22,11 +22,11 @@
 
     <!-- ✅ ТЕПЕР ВСЕРЕДИНІ content -->
     <div class="logout-wrapper">
-      <a href="{% url 'logout' %}" class="btn-logout">Go out 🚪</a>
+      <a href="{% url 'notes:logout' %}" class="btn-logout">Go out 🚪</a>
     </div>
 
     <div style="text-align: right; margin: 20px;">
-      <a href="{% url 'trash' %}" class="btn-trash-icon">🗑️</a>
+      <a href="{% url 'notes:trash' %}" class="btn-trash-icon">🗑️</a>
     </div>
 </div>
 {% endblock %}

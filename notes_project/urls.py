@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', notes_views.welcome, name='welcome'),   # ← вот сюда попадаем сначала
     path('home/', notes_views.home, name='home'),    # ← кнопка "увійти"
-    path('notes/', include('notes.urls')),           # ← всё остальное
+    path('notes/', include('notes.urls', namespace='notes')),           # ← всё остальное
 ]
