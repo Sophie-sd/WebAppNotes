@@ -143,3 +143,8 @@ def restore_all_notes(request):
 def delete_all_notes_forever(request):
     Note.objects.filter(user=request.user, is_deleted=True).delete()
     return redirect('trash')
+
+
+def details_view(request, note_id):
+    note = get_object_or_404(Note, id=note_id)
+    return render(request, 'notes/details.html', {'note': note})

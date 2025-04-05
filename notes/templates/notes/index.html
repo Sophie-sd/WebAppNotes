@@ -1,12 +1,7 @@
+{% extends 'notes/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <title>My Notes</title>
-    <link rel="stylesheet" href="{% static 'notes/style.css' %}">
-</head>
-<body>
+
+{% block content %}
 <div class="container">
     <h1 class="title">My notes</h1>
 
@@ -23,25 +18,21 @@
         {% empty %}
             <p>There are no notes yet. Create the first one!</p>
         {% endfor %}
+    </div>
 
-        <a href="{% url 'logout' %}" style="
-            display: inline-block;
-            padding: 10px 25px;
-            background-color: #ff4b2b;
-            color: white;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 20px;">Go out</a>
+    <!-- ✅ ТЕПЕР ВСЕРЕДИНІ content -->
+    <div class="logout-wrapper">
+      <a href="{% url 'logout' %}" class="btn-logout">Go out 🚪</a>
+    </div>
+
+    <div style="text-align: right; margin: 20px;">
+      <a href="{% url 'trash' %}" class="btn-trash-icon">🗑️</a>
     </div>
 </div>
+{% endblock %}
 
-<div style="text-align: right; margin-bottom: 20px;">
-    <a href="{% url 'trash' %}" class="btn-trash-icon">🗑️</a>
-</div>
-
+<!-- Скрипти — поза блоком content, це ок -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static 'notes/scripts.js' %}"></script>
-</body>
-</html>
+
 

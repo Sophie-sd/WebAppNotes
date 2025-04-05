@@ -17,6 +17,7 @@ urlpatterns = [
     path('delete/<int:note_id>/', notes_views.delete_note, name='delete_note'),
     path('edit/<int:note_id>/', notes_views.edit_note, name='edit_note'),
     path('ajax-add/', notes_views.ajax_add_note, name='ajax_add_note'),
+    path('note/<int:note_id>/', notes_views.details_view, name='details'),
 
     # Корзина
     path('trash/', notes_views.trash, name='trash'),

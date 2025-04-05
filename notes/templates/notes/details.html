@@ -1,0 +1,21 @@
+{% extends 'notes/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1 class="title">{{ note.title }}</h1>
+    <div class="note-card">
+        <div class="note-content">
+            {{ note.content }}
+        </div>
+    </div>
+    <div class="note-actions" style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+        <a href="{% url 'notes:index' %}" class="icon-btn back-btn" title="Back to notes">🔙 Назад</a>
+        <a href="{% url 'notes:edit' note.id %}" class="icon-btn edit-btn" title="Edit">✏️ Редагувати</a>
+        <form action="{% url 'notes:delete' note.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="icon-btn delete-btn" title="Delete">🗑️ Видалити</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
