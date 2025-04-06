@@ -2,19 +2,19 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-    <h1 class="title note-title">{{ note.title }}</h1>
-    <div class="note-card">
-        <div class="note-content">
+<div class="container" style="text-align: center;">
+    <h1 class="title note-title" style="font-family: 'Rubik', sans-serif; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">{{ note.title }}</h1>
+    <div class="note-card" style="display: inline-block;">
+        <div class="note-content" style="color: black; text-align: left;">
             {{ note.content }}
         </div>
     </div>
     <div class="note-actions" style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
         <a href="{% url 'notes:index' %}" class="icon-btn back-btn" title="Back to notes">🔙 Назад</a>
-        <a href="{% url 'notes:edit_note' note.id %}" class="icon-btn edit-btn" title="Edit">✏️ Редагувати</a>
+        <a href="{% url 'notes:edit_note' note.id %}" class="icon-btn edit-btn" title="Edit">✏️</a>
         <form action="{% url 'notes:delete_note' note.id %}" method="post" style="display: inline;">
             {% csrf_token %}
-            <button type="submit" class="icon-btn delete-btn" title="Delete">🗑️ Видалити</button>
+            <button type="submit" class="icon-btn delete-btn" title="Delete">🗑️</button>
         </form>
     </div>
 </div>

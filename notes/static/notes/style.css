@@ -1,257 +1,1299 @@
 body {
     margin: 0;
-    font-family: 'Rubik', sans-serif;
-    background: linear-gradient(-45deg, #ff1e56, #ff7300, #ff1e56, #ff7300);
-    background-size: 300% 300%;
-    animation: bgFlow 10s ease infinite;
-    color: white;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(-45deg, #ff1e56, #ff7300, #fcd12a, #ff1e56);
+    background-size: 400% 400%;
+    animation: animatedGradient 12s ease infinite;
+    color: #333;
+    /* padding-top: 70px; Adjust based on actual navbar height if needed, but margin-bottom on navbar is often enough */
 }
 
-@keyframes bgFlow {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+@keyframes animatedGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .container {
-    width: 90%;
-    max-width: 800px;
-    margin: 60px auto;
-    text-align: center;
+    max-width: 1500px; /* *Значно збільшуємо ширину основного контейнера* */
+    margin: 0 auto;
+    padding: 20px 40px; /* Додаємо бічний padding до основного контейнера */
+    box-sizing: border-box; /* Додаємо, щоб padding не впливав на загальну ширину */
 }
 
 .title {
-    font-size: 3em;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    color: white;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Кнопки */
+.btn,
+.icon-btn,
+.btn-logout,
+.navbar-item,
+.note-form button,
+.trash-button {
+    background: linear-gradient(135deg, #ff7300, #ff1e56);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+.btn:hover,
+.icon-btn:hover,
+.btn-logout:hover,
+.navbar-item:hover,
+.note-form button:hover,
+.trash-button:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #ff1e56, #ff7300);
+}
+
+/* Форма нотаток */
+.note-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+    max-width: 800px; /* *Робимо форму ширшою* */
+    margin: 0 auto; 
+}
+
+.note-form input,
+.note-form textarea {
+    padding: 12px 15px;
+    font-size: 1em;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.15);
+    color: white;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+    outline: none;
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+    resize: none;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.note-form input::placeholder,
+.note-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.note-form input:focus,
+.note-form textarea:focus {
+    background-color: rgba(0, 0, 0, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.note-form button {
+    background: linear-gradient(135deg, #ff7300, #ff1e56);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1em;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+    margin-top: 5px;
+}
+
+.note-form button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #ff1e56, #ff7300);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Список нотаток */
+.notes-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 60px;
+}
+
+/* Картка нотатки */
+.note-card-link {
+    text-decoration: none;
+    display: block; 
+    margin-bottom: 18px; 
+    color: inherit; 
+    text-align: center; /* *Додаємо центрування до посилання* */
+}
+
+.note-card {
+    /* Ширина тепер визначається контейнером .notes-grid */
+    background: rgba(0, 0, 0, 0.18); 
+    padding: 15px 20px; /* Залишаємо відступи */
+    border-radius: 12px; /* *Трохи менший радіус* */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    display: flex; 
+    flex-direction: column;
+    min-height: auto; /* *Прибираємо фіксовану min-height, висота буде за контентом* */
+    text-decoration: none; 
+    color: inherit; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    overflow: hidden; 
+}
+
+.note-card:hover {
+    transform: translateY(-5px); /* *Ефект підняття при наведенні* */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); 
+}
+
+.note-card h3 {
+    font-size: 1.2em; 
+    font-weight: 600;
+    color: white;
+    margin: 0 0 5px 0; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    text-align: center !important; /* *Повертаємо !important для діагностики* */
+}
+
+.note-card p {
+    font-size: 0.9em; /* Менший текст контенту */
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.4;
+    margin: 0;
+    flex-grow: 1; 
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Залишаємо 2 рядки контенту */
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Стилі для посилання в заголовку картки (якщо використовується) */
+.note-card h4 a {
+    color: inherit; /* Успадковуємо колір від h4 */
+    text-decoration: none; /* Прибираємо підкреслення */
+}
+
+/* Дії над нотаткою */
+.note-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+/* Кнопка корзини */
+.btn-trash-icon {
+    display: inline-flex; /* Flex для центрування */
+    align-items: center;
+    justify-content: center;
+    position: fixed; /* Залишаємо фіксованим */
+    bottom: 30px;
+    right: 40px;
+    width: 60px; /* *Збільшуємо розмір* */
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.3); /* Темніший фон */
+    color: rgba(255, 255, 255, 0.7); /* Світліша іконка */
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 1.8em; /* *Більший розмір іконки* */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Додаємо переходи */
+    z-index: 999;
+}
+
+.btn-trash-icon:hover {
+    background-color: rgba(0, 0, 0, 0.45);
+    color: white;
+    transform: scale(1.15); /* *Збільшуємо при наведенні* */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* *Посилюємо тінь* */
+}
+
+/* Хедер */
+.navbar {
+    background: rgba(0, 0, 0, 0.45); 
+    backdrop-filter: blur(12px); 
+    padding: 12px 0; 
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    margin-bottom: 20px; /* *Зменшуємо відступ під навігацією* */
+}
+
+.nav-container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    color: white;
+    text-decoration: none;
+    font-size: 1.8em; /* Трохи більший шрифт */
+    font-weight: 700; /* Жирніший */
+    transition: color 0.3s ease;
+}
+.navbar-brand:hover {
+    color: #fcd12a; /* Акцентний колір при наведенні */
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Зменшимо gap між основними елементами */
+}
+
+/* Стилі для форми пошуку (зміни) */
+.search-form {
+    margin-left: 0; /* Прибираємо зайвий відступ */
+}
+
+.search-input {
+    padding: 9px 15px 9px 15px; /* Змінимо padding */
+    border-radius: 8px; /* Менш круглі краї */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease, border-color 0.3s ease, width 0.3s ease;
+    width: 160px; /* Початкова ширина */
+    outline: none;
+}
+
+.search-input:focus {
+    background-color: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.3);
+    width: 220px; /* Розширюємо при фокусі */
+}
+
+.search-button {
+    padding: 8px 10px; /* Трохи змінимо padding */
+    margin-left: -42px; /* Більше зміщення вліво */
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7); /* Трохи яскравіша */
+    cursor: pointer;
+    font-size: 1.3em; /* Значно більша іконка */
+    transition: color 0.3s ease;
+    z-index: 2;
+    display: flex; /* Додамо для центрування, якщо знадобиться */
+    align-items: center; /* Вертикальне центрування */
+    height: 100%; /* Спробуємо вирівняти по висоті інпута */
+}
+
+.search-button:hover {
+    color: white;
+}
+
+/* --- Кінець стилів для форми пошуку --- */
+
+/* Загальні стилі для посилань меню (Profile, Logout) */
+.navbar-item {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 1em;
+    padding: 8px 12px; /* Зменшимо padding */
+    border-radius: 6px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex; /* Для вирівнювання іконки/аватара та тексту */
+    align-items: center;
+    gap: 8px; /* Проміжок між іконкою/аватаром та текстом */
+    margin-left: 0; /* Прибираємо старі відступи */
+    background: none; /* Прибираємо фон за замовчуванням */
+    box-shadow: none; /* Прибираємо тінь */
+}
+
+.navbar-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: none; /* Прибираємо scale */
+}
+
+/* Стилі для аватара */
+.navbar-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover; /* Масштабуємо зображення */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: inline-flex; /* Для коректного відображення span */
+    align-items: center;
+    justify-content: center;
+}
+
+.default-avatar {
+    background-color: rgba(255, 255, 255, 0.2);
+    font-size: 16px; /* Розмір іконки */
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Стилі для кнопки виходу */
+.logout-link {
+    padding: 8px; /* Зробимо її компактнішою */
+}
+
+.icon-logout {
+    font-size: 1.3em; /* Збільшимо іконку виходу */
+    line-height: 1; /* Прибираємо зайву висоту */
+}
+
+/* Видаляємо старий стиль .btn-logout */
+.btn-logout {
+    /* background: linear-gradient(135deg, #ff7300, #ff1e56); */
+    /* color: white; */
+    /* padding: 10px 18px; */
+    /* border: none; */
+    /* border-radius: 30px; */
+    /* cursor: pointer; */
+    /* font-weight: bold; */
+    /* font-size: 1em; */
+    /* transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; */
+    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); */
+    /* text-decoration: none; */
+    /* margin-left: 25px; */
+    /* line-height: 1.5; */
+    /* display: none; - Можна просто видалити правила або закоментувати */
+}
+
+.btn-logout:hover {
+    /* transform: scale(1.05); */
+    /* background: linear-gradient(135deg, #ff1e56, #ff7300); */
+    /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); */
+}
+
+/* Заголовок нотатки на сторінці details */
+.note-title {
+    font-size: 2.5em;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Контент нотатки */
+.note-content {
+    background-color: rgba(255, 255, 255, 0.15);
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    line-height: 1.6;
+    color: white;
+    word-wrap: break-word;
+}
+
+/* Password Change Form Styles */
+.password-change-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    color: white;
+}
+.password-change-container .title {
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.password-change-container p:first-of-type {
+    font-size: 0.95em;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+.password-change-container form p {
+    /* Цей стиль більше не потрібен для ручного рендерінгу, можна видалити або закоментувати */
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* text-align: left; */
+    /* margin-bottom: 18px; */
+}
+.password-change-container .form-field-wrapper {
+    margin-bottom: 20px; /* Відступ між полями */
+    text-align: left;
+}
+.password-change-container form ul.errorlist {
+    list-style: none;
+    padding-top: 4px; /* Невеликий відступ зверху */
+    margin: 0;
+    color: #ffccd1;
+    font-size: 0.85em;
+}
+.password-change-container label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+    color: rgba(255, 255, 255, 0.9);
+    display: block; /* Робимо label блочним для кращого відступу */
+}
+.password-change-container input[type="password"] {
+    padding: 12px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    font-size: 1em;
+    color: white;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+    width: 100%;
+    box-sizing: border-box;
+}
+.password-change-container .helptext {
+    display: block; /* Робимо блочним */
+    margin-top: 8px; /* Збільшуємо відступ */
+    font-size: 0.85em; /* Трохи більший шрифт */
+    line-height: 1.4; /* Міжрядковий інтервал */
+    color: rgba(255, 255, 255, 0.7);
+}
+/* Стилізація списку всередині helptext (вимоги до пароля) */
+.password-change-container .helptext ul {
+    list-style: disc; /* Використовуємо стандартні маркери */
+    padding-left: 20px; /* Відступ для маркерів */
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+.password-change-container .helptext ul li {
+    margin-bottom: 4px; /* Відступ між пунктами */
+}
+.password-change-container .btn {
+    margin-top: 15px;
+    /* Use the same button style */
+     background: linear-gradient(135deg, #ff7300, #ff1e56);
+     color: white;
+     padding: 12px 30px;
+     border: none;
+     border-radius: 30px;
+     cursor: pointer;
+     font-weight: bold;
+     font-size: 1em;
+     transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+     text-decoration: none;
+}
+.password-change-container .btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #ff1e56, #ff7300);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+.password-change-container .back-link {
+    margin-top: 25px;
+    display: block;
+}
+.password-change-container .back-link a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+.password-change-container .back-link a:hover {
+    color: white;
+}
+
+/* Trash Page Styles */
+.trash-container {
+    max-width: 700px;
+    margin: 20px auto;
+    text-align: center;
+    padding: 20px;
+}
+
+.trash-actions {
     margin-bottom: 30px;
-    animation: fadeIn 2s ease-out;
+}
+
+.deleted-note-card {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 20px 25px;
+    margin: 20px auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    color: white;
+    /* Add animation */
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInItem 0.5s ease forwards;
+}
+
+/* Stagger animation delay for cards */
+.deleted-note-card:nth-child(1) { animation-delay: 0.1s; }
+.deleted-note-card:nth-child(2) { animation-delay: 0.2s; }
+.deleted-note-card:nth-child(3) { animation-delay: 0.3s; }
+/* Add more if needed */
+
+@keyframes fadeInItem {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.deleted-note-card h2 {
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 10px 0;
+    font-size: 1.3em;
+}
+
+.deleted-note-card p {
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 15px 0;
+    font-size: 0.95em;
+}
+
+.deleted-note-actions {
+    text-align: right;
+}
+
+.btn-trash-restore, .btn-trash-delete {
+    padding: 8px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-left: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+}
+.btn-trash-restore {
+    background-color: #28a745;
+    color: white;
+}
+.btn-trash-restore:hover {
+    background-color: #34cc5a;
+    transform: scale(1.05);
+}
+.btn-trash-delete {
+    background-color: #dc3545;
+    color: white;
+}
+ .btn-trash-delete:hover {
+    background-color: #e45a67;
+    transform: scale(1.05);
+}
+
+.empty-trash-text {
+    margin-top: 50px;
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+    font-size: 1.1em;
+}
+
+/* Profile Page Specific Styles */
+.profile-container {
+    max-width: 600px; 
+    margin: 20px auto 40px auto; /* *Зменшуємо верхній відступ, залишаємо нижній* */
+    padding: 30px 40px; 
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    /* text-align: center; - Приберемо, щоб поля були зліва */
+    color: white;
+}
+
+.profile-container .username-display {
+    font-size: 1.1em;
+    margin-bottom: 25px; /* Збільшимо відступ */
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center; /* Повернемо центрування для username */
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; - Приберемо, щоб поля були по ширині */
+    gap: 20px; /* Збільшимо gap */
+    width: 100%;
+    /* max-width: 400px; - Приберемо, нехай форма займає всю ширину контейнера */
+    margin: 0 auto;
+}
+
+/* Стилі для полів форми профілю */
+.profile-form .form-group {
+    width: 100%;
+    text-align: left; /* Вирівнюємо текст та label зліва */
+}
+
+.profile-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.profile-form input[type="text"],
+.profile-form input[type="email"],
+.profile-form input[type="date"],
+.profile-form input[type="file"],
+.profile-form select,
+.profile-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 1em;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.15);
+    color: white;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+    outline: none;
+    box-sizing: border-box; /* Важливо! */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.profile-form input[type="text"]::placeholder,
+.profile-form input[type="email"]::placeholder,
+.profile-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.profile-form input[type="text"]:focus,
+.profile-form input[type="email"]:focus,
+.profile-form input[type="date"]:focus,
+.profile-form input[type="file"]:focus,
+.profile-form select:focus,
+.profile-form textarea:focus {
+    background-color: rgba(0, 0, 0, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.profile-form textarea {
+    resize: vertical; /* Дозволимо змінювати розмір тільки по вертикалі */
+    min-height: 80px;
+}
+
+.profile-form .form-check-label { /* Для Gender, якщо використовується radio/checkbox */
+    display: inline-block;
+    margin-right: 15px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.profile-form .form-check input { /* Стилізація radio/checkbox, якщо потрібно */
+    margin-right: 5px;
+}
+
+/* Стилізація блоку завантаження аватара */
+.profile-form .file-upload-wrapper {
+    text-align: left;
+}
+
+#preview {
+    display: block; /* Робимо блочним */
+    max-width: 150px; /* Обмежимо розмір прев'ю */
+    max-height: 150px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.profile-form .btn { /* Кнопка Save Profile */
+    margin-top: 15px;
+    align-self: center; /* Центруємо кнопку */
+    /* Стилі кнопки вже визначені глобально */
+}
+
+.profile-container .change-password-section {
+    margin-top: 30px; /* Збільшимо відступ */
+    padding-top: 20px; /* Додамо відступ зверху */
+    border-top: 1px solid rgba(255, 255, 255, 0.2); /* Розділювач */
+    text-align: center;
+}
+
+.profile-container .link-styled {
+    /* Use the same button style */
+     background: linear-gradient(135deg, #434343, #1e1e1e); /* Темніший градієнт для другорядної дії */
+     color: white;
+     padding: 10px 20px;
+     border: none;
+     border-radius: 30px;
+     cursor: pointer;
+     font-weight: bold;
+     font-size: 0.95em;
+     transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+     text-decoration: none;
+     display: inline-block; /* Щоб застосувались padding/margin */
+}
+.profile-container .link-styled:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #1e1e1e, #434343);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Notes Page Layout with Sidebar */
+.notes-layout {
+    display: flex;
+    gap: 35px; 
+    /* max-width: 1500px; - Прибираємо, layout тепер заповнює .container */
+    margin: 0 auto; 
+    /* padding: 0 40px; - Прибираємо, цим керує .container */
+    /* box-sizing: border-box; - Теж не потрібен тут */
+    width: 100%; /* Додаємо, щоб layout заповнив батьківський .container */
+}
+
+.sidebar {
+    flex: 0 0 220px; /* *Робимо вужчим* */
+    background: rgba(0, 0, 0, 0.15); /* Трохи світліший фон */
+    padding: 30px 25px; /* Збільшуємо вертикальний padding */
+    border-radius: 18px; /* Трохи більший радіус */
+    height: fit-content; /* Висота все ще за вмістом */
+    min-height: 400px; /* Але додамо мінімальну висоту */
+    position: sticky;
+    top: 90px; 
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12), inset 0 0 8px rgba(0,0,0,0.1); /* Оновимо тіні */
+    transition: box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.06); /* Ледь помітний бордер */
+    display: flex; /* Flex для вертикального розподілу */
+    flex-direction: column; /* Вертикальний напрямок */
+}
+
+.sidebar h3 { /* Заголовок Folders */
+    margin: 0 0 25px 0; /* Збільшимо відступ знизу */
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.3em; /* Трохи менший */
+    font-weight: 600;
+    border-bottom: none; 
+    padding-bottom: 0;
+    text-align: left; /* Вирівнювання зліва */
+}
+
+.folder-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 25px 0; 
+    flex-grow: 1; /* Дозволяємо списку рости, щоб кнопка була знизу */
+}
+
+.folder-list li {
+    margin-bottom: 8px; /* Збільшимо відступ між папками */
+}
+
+.folder-list li a {
+    color: rgba(255, 255, 255, 0.85); 
+    text-decoration: none;
+    display: flex; 
+    align-items: center;
+    gap: 12px; /* Більший відступ */ 
+    padding: 12px 15px; /* Збільшимо padding */ 
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out; 
+    border-left: 4px solid transparent; 
+    position: relative; 
+    font-size: 1.1em; /* Трохи більший шрифт папок */
+}
+
+.folder-list li a::before {
+    content: '📁'; 
+    font-size: 1.1em;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.folder-list li a:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Світліший hover */
+    color: white;
+    border-left-color: rgba(255, 255, 255, 0.5); 
+    transform: translateX(5px); 
+}
+
+.folder-list li a:hover::before {
+    opacity: 1;
+}
+
+.folder-list li.active a {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: white;
+    font-weight: 600;
+    border-left-color: #ffdd57; /* Яскравіший жовтий */
+}
+
+.folder-list li.active a::before {
+    opacity: 1;
+}
+
+/* Оновлена кнопка "+ New Folder" */
+.sidebar .btn-add-folder {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Відступ між іконкою та текстом */
+    margin-top: auto; /* Притискаємо до низу flex-контейнера */
+    padding: 12px 15px; /* Збільшимо padding */
+    text-align: center;
+    background: linear-gradient(45deg, #6a11cb, #2575fc); /* Новий градієнт */
+    color: white;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600; 
+    font-size: 1.05em; /* Більший шрифт кнопки */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: none; /* Прибираємо бордер */
+    width: 100%; /* *На всю ширину сайдбару* */
+    box-sizing: border-box;
+}
+
+.sidebar .btn-add-folder::before {
+    content: '+'; 
+    font-size: 1.5em;
+    font-weight: bold;
+    line-height: 1;
+    margin-right: 8px; /* *Збільшимо відступ для візуального балансу* */
+}
+
+.sidebar .btn-add-folder:hover {
+    background: linear-gradient(45deg, #2575fc, #6a11cb); /* Зворотній градієнт */
+    color: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px); /* Більший ефект підняття */
+}
+
+.sidebar .btn-add-folder:active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.main-content {
+    flex-grow: 1; 
+    min-width: 0; 
+}
+
+/* Оновлення для сітки нотаток - робимо одну колонку */
+.notes-grid {
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; /* *Зменшуємо відступ між нотатками* */
+    max-width: 650px; /* *Робимо сітку вужчою* (як форма) */
+    margin: 0 auto; 
+    padding-top: 20px; 
+}
+
+.empty-notes-text {
+    /* Стилі для тексту, коли нотаток немає */
+     margin-top: 50px;
+     color: rgba(255, 255, 255, 0.6);
+     font-style: italic;
+     font-size: 1.1em;
+     text-align: center; /* Центруємо текст */
+     grid-column: 1 / -1; /* Розтягуємо на всі колонки сітки */
+}
+
+/* ... (rest of styles) ... */
+
+/* Стилі для форми пошуку в навігації */
+.search-form {
+    display: flex;
+    align-items: center;
+    margin-left: 20px; /* Відступ від пункту "Notes" */
+}
+
+.search-input {
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 0.9em;
+    outline: none;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    width: 180px; /* Фіксована ширина */
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-input:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.search-button {
+    padding: 8px 10px; /* Трохи змінимо padding */
+    margin-left: -42px; /* Більше зміщення вліво */
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7); /* Трохи яскравіша */
+    cursor: pointer;
+    font-size: 1.3em; /* Значно більша іконка */
+    transition: color 0.3s ease;
+    z-index: 2;
+    display: flex; /* Додамо для центрування, якщо знадобиться */
+    align-items: center; /* Вертикальне центрування */
+    height: 100%; /* Спробуємо вирівняти по висоті інпута */
+}
+
+.search-button:hover {
+    color: white;
+}
+/* --- Кінець стилів для форми пошуку --- */
+
+/* --- Нові стилі для аватара на сторінці профілю --- */
+.avatar-container {
+    width: 160px; /* Розмір контейнера */
+    height: 160px;
+    border-radius: 50%; /* Робимо круглим */
+    margin: 0 auto 30px auto; /* Центруємо та додаємо відступ знизу */
+    position: relative; /* Для позиціонування іконки */
+    cursor: pointer;
+    overflow: hidden; /* Обрізаємо все, що виходить за межі кола */
+    border: 4px solid rgba(255, 255, 255, 0.2); /* Бордер навколо аватара */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.avatar-label {
+    display: block; 
+    width: 100%;
+    height: 100%;
+    cursor: pointer; 
+    /* Прибираємо flex, він більше не потрібен для центрування фону */
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    background-size: cover; /* *Повертаємо cover для заповнення* */
+    background-position: center center; 
+    background-repeat: no-repeat; 
+    position: relative; /* Щоб іконка позиціонувалась відносно label */
+    transition: background-color 0.3s ease; /* Додамо перехід для фону */
+}
+
+/* Прибираємо стилі для img, бо його більше немає */
+/* .profile-avatar-img { ... } */
+
+.avatar-edit-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0; 
+    transition: opacity 0.3s ease;
+    pointer-events: none; 
+}
+
+.avatar-container:hover .avatar-label {
+    /* background-color: rgba(0, 0, 0, 0.3); Можна додати затемнення фону при наведенні */
+}
+
+.avatar-container:hover .avatar-edit-icon {
+    opacity: 1; 
+}
+
+/* Приховуємо стандартний інпут */
+.file-input-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+/* Приховуємо label цього інпута теж */
+.file-input-hidden label {
+     display: none;
+}
+/* --- Кінець стилів для аватара --- */
+
+.profile-container .username-display {
+    font-size: 1.1em;
+}
+
+/* --- Styles for Note Detail Page --- */
+.note-detail-container {
+    max-width: 850px;
+    margin: 30px auto; /* Центруємо та додаємо відступи */
+    padding: 40px 50px; /* Внутрішні відступи */
+    background: rgba(0, 0, 0, 0.25); /* Темніший фон */
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    color: rgba(255, 255, 255, 0.9);
+    position: relative; /* Для позиціонування кнопок */
+}
+
+.note-header {
+    display: flex;
+    justify-content: space-between; /* Розносимо заголовок та кнопки */
+    align-items: flex-start; /* Вирівнюємо по верху */
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.note-detail-title {
+    font-size: 2.2em; /* Великий заголовок */
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    line-height: 1.3;
+    word-break: break-word; /* Перенос довгих слів у заголовку */
+}
+
+.note-actions {
+    display: flex;
+    gap: 10px;
+    /* Можна додати відступ, якщо кнопки налізають на текст */
+    /* margin-left: 20px; */
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%; /* Круглі кнопки */
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.2em; /* Розмір іконки */
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    line-height: 1;
+    width: 36px; /* Фіксований розмір */
+    height: 36px;
+}
+
+.btn-action:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: scale(1.1); /* Легке збільшення при наведенні */
+}
+
+.btn-edit:hover {
+     background-color: rgba(100, 180, 255, 0.3); /* Синій відтінок для редагування */
+}
+
+.btn-delete:hover {
+    background-color: rgba(255, 80, 100, 0.3); /* Червоний відтінок для видалення */
+}
+
+.note-detail-content {
+    font-size: 1.1em;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.85);
+    white-space: pre-wrap; /* Зберігаємо переноси рядків та пробіли */
+    word-wrap: break-word; /* Переносимо довгі слова */
+}
+
+/* --- Кінець стилів для Note Detail Page --- */
+
+/* --- Стилі для Центрального Блоку (Форма) --- */
+.main-content .container {
+    /* Можливо, тут не потрібен окремий контейнер, якщо .main-content вже керує відступами */
+    /* padding: 0; */ /* Спробуємо прибрати внутрішній padding, якщо .main-content вже має його */
+}
+
+.page-title {
+    margin-bottom: 20px; /* Відступ під заголовком сторінки */
+    text-align: center; /* Центруємо заголовок типу папки */
+    font-size: 2em;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.section-divider {
+    border: none;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 30px auto; /* Відступи зверху/знизу та центрування */
+    width: 80%; /* Ширина роздільника */
 }
 
 .note-form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 40px;
-    animation: fadeInUp 1.5s ease-out;
+    gap: 20px; /* Відступ між елементами форми */
+    max-width: 650px; /* Обмежимо ширину форми */
+    margin: 0 auto; /* Центруємо форму */
 }
 
-.note-form input,
-.note-form textarea {
-    padding: 15px;
-    font-size: 1em;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    width: 100%;
-    box-sizing: border-box;
-    resize: none; /* Заборона зміни розміру */
-}
-
-.note-form button {
-    background-color: white;
-    color: #ff1e56;
-    padding: 12px;
-    font-weight: bold;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.note-form button:hover {
-    background-color: #ff7300;
-    color: white;
-}
-
-.notes-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
-    padding-bottom: 60px;
-}
-
-.note-card {
-    width: 100%;
-    max-width: 700px;
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(5px);
-    padding: 20px 25px;
-    border-radius: 14px;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    transform: rotate(-0.2deg);
-    text-align: left;
+/* Обгортка для інпута з іконкою */
+.input-with-icon {
     position: relative;
 }
 
-.note-card:hover {
-    transform: scale(1.015) rotate(0deg);
-    box-shadow: 0 18px 30px rgba(0, 0, 0, 0.2);
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    color: rgba(255, 255, 255, 0.5);
+    pointer-events: none; /* Щоб не заважала кліку на інпут */
 }
 
-.note-card h2 {
-    margin: 0 0 8px;
-    color: #fff;
-    font-size: 1.3em;
-}
-
-.note-preview {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 1em;
-    color: #f0f0f0;
-    margin-bottom: 10px;
-}
-
-.note-full {
-    display: none;
-    white-space: pre-wrap;
-    color: #fff;
-    margin-top: 10px;
-}
-
-.note-full.show {
-    display: block;
-}
-
-.note-actions {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 16px;
-}
-
-/* 🔘 Кнопки-іконки */
-.icon-btn {
-    background: none;
-    border: none;
-    font-size: 1.4em;
-    cursor: pointer;
-    padding: 4px;
-    transition: transform 0.25s ease-in-out;
-    text-decoration: none;
-    color: inherit;
-}
-
-/* ✏️ та 🗑️ — плавне збільшення */
-.edit-btn:hover,
-.delete-btn:hover {
-    transform: scale(1.5);
-}
-
-.fade-in {
-    animation: fadeInNote 0.6s ease-out forwards;
-}
-
-@keyframes fadeInNote {
-    0% {
-        opacity: 0;
-        transform: translateY(15px) scale(0.97);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.btn-trash-icon {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    font-size: 28px;
-    text-decoration: none;
-    background-color: white;
-    color: #ff4d4d;
-    padding: 12px 16px;
-    border-radius: 50%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease;
-    z-index: 1000;
-}
-
-.btn-trash-icon:hover {
-    transform: scale(1.15);
-    background-color: #ff4d4d;
-    color: white;
-}
-
-/* Текст не вилазить за межі картки */
-.note-card p,
-.note-card .note-full {
-    word-break: break-word;
-    overflow-wrap: break-word;
-    white-space: pre-wrap;
-}
-
-.logout-wrapper {
-    position: fixed;
-    top: 20px;
-    right: 30px;
-    z-index: 1000;
-}
-
-.btn-logout {
-    background-color: #ff4d4d;
-    color: white;
-    padding: 10px 18px;
-    border-radius: 30px;
-    font-weight: bold;
-    text-decoration: none;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: background-color 0.3s ease;
-}
-
-.btn-logout:hover {
-    background-color: #ff1e56;
-}
-
-.note-card-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-.note-card-link:hover {
-    transform: none;
-}
-
-.note-title {
-    font-size: 3em;
-    text-align: center;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    animation: fadeIn 1s ease-out;
-}
-
-@keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
-.note-content {
-    background-color: rgba(255, 255, 255, 0.1);
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
+.note-input, .note-textarea {
+    width: 100%;
+    padding: 14px 18px; /* Збільшимо padding */
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    line-height: 1.6;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
-    white-space: pre-wrap;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+    font-size: 1.05em;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
+    outline: none;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.note-content:hover {
-    transform: none;
+/* Специфічний padding для інпута з іконкою */
+.input-with-icon .note-input {
+    padding-left: 50px; /* Додаємо місце для іконки */
 }
+
+.note-textarea {
+    min-height: 120px; /* Збільшуємо висоту */
+    resize: vertical;
+}
+
+.note-input::placeholder, .note-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.note-input:focus, .note-textarea:focus {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Стиль для кнопки Create */
+.note-button.btn-gradient {
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Трохи менший відступ */
+    padding: 12px 25px; /* *Зменшуємо padding* */
+    font-size: 1.05em; /* *Трохи зменшуємо шрифт* */
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(45deg, #ff7300, #ff1e56); 
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    align-self: center; 
+}
+
+.note-button.btn-gradient .button-icon {
+    font-size: 1.2em; /* Трохи менша іконка */
+    line-height: 1;
+}
+
+.note-button.btn-gradient:hover {
+    background: linear-gradient(45deg, #ff1e56, #ff7300); /* Зворотній градієнт */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.note-button.btn-gradient:active {
+    transform: translateY(0px) scale(0.98); /* Ефект натискання */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Роздільник перед списком нотаток */
+.notes-divider {
+    margin-top: 40px;
+    width: 100%; /* На всю ширину */
+}
+
+/* Стилі для форми додавання папки в сайдбарі */
+#add-folder-form {
+    display: none; /* Початково прихована */
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-input {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: rgba(0, 0, 0, 0.25);
+    color: white;
+    font-size: 0.95em;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.sidebar-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.sidebar-input:focus {
+    background-color: rgba(0, 0, 0, 0.35);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Кнопки збереження та скасування */
+.btn-save-folder, .btn-cancel-folder {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.btn-save-folder {
+    background-color: #4CAF50; /* Зелений */
+    color: white;
+}
+
+.btn-save-folder:hover {
+    background-color: #5cdb61;
+    transform: translateY(-1px);
+}
+
+.btn-cancel-folder {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-cancel-folder:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: white;
+}
+
+/* --- Кінець стилів для форми додавання папки --- */
+
+.main-content {
+    flex-grow: 1; 
+}
+
+
+
+
 
 
 

@@ -7,6 +7,38 @@
     <link rel="stylesheet" href="{% static 'notes/style.css' %}">
 </head>
 <body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'notes:index' %}" class="navbar-brand">My Notes</a>
+            <div class="navbar-menu">
+                {# Додаємо форму пошуку #}
+                <form action="{% url 'notes:search_notes' %}" method="GET" class="search-form">
+                    <input type="text" name="q" placeholder="Search notes..." class="search-input" value="{{ request.GET.q }}">
+                    <button type="submit" class="search-button">🔍</button>
+                </form>
+                {# --- #}
+
+                {# Профіль з аватаром #}
+                {% block nav_profile %}
+                <a href="{% url 'notes:profile' %}" class="navbar-item profile-link">
+                    {% if request.user.userprofile.avatar %}
+                        <img src="{{ request.user.userprofile.avatar.url }}" alt="Avatar" class="navbar-avatar">
+                    {% else %}
+                        <span class="navbar-avatar default-avatar">👤</span>
+                    {% endif %}
+                    <span>Profile</span>
+                </a>
+                {% endblock %}
+
+                {# Вихід - робимо як іконку/посилання #}
+                {% block nav_logout %}
+                <a href="{% url 'notes:logout' %}" class="navbar-item logout-link" title="Go out">
+                    <span class="icon-logout">🚪</span>
+                </a>
+                {% endblock %}
+            </div>
+        </div>
+    </nav>
     <div class="container">
         {% block content %}{% endblock %}
     </div>

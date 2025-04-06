@@ -1,0 +1,101 @@
+{% extends 'notes/base.html' %}
+{% load static %}
+
+{% block content %}
+{# Стилі перенесено до style.css #}
+
+<div class="profile-container">
+    <h1 class="title">Profile</h1>
+    <p class="username-display">Username: <strong>{{ user.username }}</strong></p>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {# Контейнер для аватара, переміщений перед формою #}
+    <div class="avatar-container" id="avatar-container">
+        {# Тепер label - це наш основний елемент для фону #}
+        <label for="{{ form.avatar.id_for_label }}" 
+               class="avatar-label" 
+               id="avatar-label" 
+               style="background-image: url('{% if form.instance.avatar %}{{ form.instance.avatar.url }}{% else %}{% static 'notes/images/default-avatar.png' %}{% endif %}');">
+            {# <img ... /> - Прибираємо img тег #}
+            <span class="avatar-edit-icon">✏️</span> {# Іконка редагування при наведенні #}
+        </label>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="profile-form">
+        {% csrf_token %}
+
+        {# Приховане поле для завантаження файлу #}
+        <div class="form-group file-input-hidden">
+             {{ form.avatar.label_tag }} {# Залишаємо для доступності, але приховаємо #}
+             {{ form.avatar }} {# Сам інпут буде приховано через CSS #}
+             {{ form.avatar.errors }}
+        </div>
+
+        {# --- Решта полів форми --- #}
+        <div class="form-group">
+            {{ form.full_name.label_tag }}
+            {{ form.full_name }}
+            {{ form.full_name.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.birth_date.label_tag }}
+            {{ form.birth_date }}
+            {{ form.birth_date.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.gender.label_tag }}
+            {{ form.gender }}
+            {{ form.gender.errors }}
+        </div>
+
+         <div class="form-group">
+            {{ form.bio.label_tag }}
+            {{ form.bio }}
+            {{ form.bio.errors }}
+        </div>
+
+        <button type="submit" class="btn">Save Profile</button>
+    </form>
+
+    <p class="change-password-section">
+        <a href="{% url 'notes:password_change' %}" class="link-styled" id="change-password-link">Change Password</a>
+    </p>
+</div>
+
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function(){
+            // Оновлюємо фон label замість src зображення
+            const label = document.getElementById('avatar-label'); 
+            label.style.backgroundImage = `url('${reader.result}')`;
+        }
+        if (event.target.files[0]) {
+            reader.readAsDataURL(event.target.files[0]);
+        } else {
+             // Якщо користувач скасував вибір, повертаємо старе/дефолтне фонове зображення
+             const label = document.getElementById('avatar-label');
+             const initialBgImage = "url('{% if form.instance.avatar %}{{ form.instance.avatar.url }}{% else %}{% static 'notes/images/default-avatar.png' %}{% endif %}')";
+             label.style.backgroundImage = initialBgImage;
+        }
+    }
+
+    // Обробник кліку залишається на avatar-container
+    document.getElementById('avatar-container').addEventListener('click', function() {
+        document.getElementById('{{ form.avatar.id_for_label }}').click();
+    });
+
+    // Обробник зміни файлу залишається на інпуті
+    document.getElementById('{{ form.avatar.id_for_label }}').addEventListener('change', previewImage);
+</script>
+{% endblock %}
+

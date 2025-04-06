@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from notes import views as notes_views
+from django.conf import settings # Імпорт налаштувань
+from django.conf.urls.static import static # Імпорт функції static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,3 +26,7 @@ urlpatterns = [
     path('home/', notes_views.home, name='home'),    # ← кнопка "увійти"
     path('notes/', include('notes.urls', namespace='notes')),           # ← всё остальное
 ]
+
+# Додаємо роздачу медіафайлів у режимі DEBUG
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

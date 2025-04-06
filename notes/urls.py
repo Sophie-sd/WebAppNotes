@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path
+from django.contrib.auth import views as auth_views
 
 from notes import views as notes_views
 
@@ -21,6 +22,12 @@ urlpatterns = [
     path('ajax-add/', notes_views.ajax_add_note, name='ajax_add_note'),
     path('note/<int:id>/', notes_views.details_view, name='details'),
 
+    # Пошук
+    path('search/', notes_views.search_notes, name='search_notes'),
+
+    # Папки (AJAX)
+    path('ajax-add-folder/', notes_views.ajax_add_folder, name='ajax_add_folder'),
+
     # Корзина
     path('trash/', notes_views.trash, name='trash'),
     path('restore/<int:note_id>/', notes_views.restore_note, name='restore_note'),
@@ -30,4 +37,9 @@ urlpatterns = [
 
     # Вихід
     path('logout/', notes_views.logout_view, name='logout'),
+
+    # Профіль та зміна пароля
+    path('profile/', notes_views.profile_view, name='profile'),
+    path('password_change/', auth_views.PasswordChangeView.as_view(template_name='notes/password_change_form.html', success_url='/notes/password_change/done/'), name='password_change'),
+    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='notes/password_change_done.html'), name='password_change_done'),
 ]

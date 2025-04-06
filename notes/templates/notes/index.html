@@ -2,36 +2,93 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-    <h1 class="title">My notes</h1>
+<div class="notes-layout">
+    {# Бічна панель з папками #}
+    <aside class="sidebar">
+        <h3>Folders</h3>
+        <ul class="folder-list">
+            {# Посилання на нотатки без папки #}
+            <li class="{% if not selected_folder_id %}active{% endif %}">
+                <a href="{% url 'notes:index' %}">Uncategorized</a>
+            </li>
+            {# Цикл по папках користувача #}
+            {% for f in folders %}
+            <li class="{% if selected_folder_id == f.id %}active{% endif %}">
+                <a href="{% url 'notes:index' %}?folder={{ f.id }}">{{ f.name }}</a>
+                {# Додати кнопки редагування/видалення папки пізніше #}
+            </li>
+            {% empty %}
+            <li><small>No folders yet.</small></li>
+            {% endfor %}
+        </ul>
+        
+        {# Форма для додавання папки (початково прихована) #}
+        <form id="add-folder-form" style="display: none; margin-top: 15px;">
+             <input type="text" id="new-folder-name" placeholder="New folder name..." class="sidebar-input" required>
+             <button type="submit" class="btn-save-folder">Save</button>
+             <button type="button" id="cancel-add-folder" class="btn-cancel-folder">Cancel</button> {# Кнопка скасування #}
+        </form>
 
-    <form id="add-note-form" class="note-form">
-        {% csrf_token %}
-        <input type="text" name="title" placeholder="Title" class="note-input" required>
-        <textarea name="content" placeholder="The text of the note..." class="note-textarea" required></textarea>
-        <button type="submit" class="note-button">Create a note</button>
-    </form>
+        {# Кнопка, яка показує форму #}
+        <button type="button" id="show-add-folder-btn" class="btn-add-folder">New Folder</button> {# Змінюємо <a> на <button> #}
+    </aside>
 
-    <div id="notes-list">
-        {% for note in notes %}
-            {% include 'notes/partials/note_card.html' %}
-        {% empty %}
-            <p>There are no notes yet. Create the first one!</p>
-        {% endfor %}
-    </div>
+    {# Основний контент (форма та список нотаток) #}
+    <main class="main-content">
+        <div class="container">
+            <h1 class="title page-title">
+                {% if selected_folder %}
+                    {{ selected_folder.name }}
+                {% else %}
+                    My Notes
+                {% endif %}
+            </h1>
 
-    <!-- ✅ ТЕПЕР ВСЕРЕДИНІ content -->
-    <div class="logout-wrapper">
-      <a href="{% url 'notes:logout' %}" class="btn-logout">Go out 🚪</a>
-    </div>
+            {# Роздільник #}
+            <hr class="section-divider">
 
-    <div style="text-align: right; margin: 20px;">
-      <a href="{% url 'notes:trash' %}" class="btn-trash-icon">🗑️</a>
-    </div>
+            <form id="add-note-form" class="note-form" method="post">
+                {% csrf_token %}
+                {% if selected_folder_id %}
+                <input type="hidden" name="folder" value="{{ selected_folder_id }}">
+                {% endif %}
+                
+                {# Обгортка для поля Title з іконкою #}
+                <div class="input-with-icon">
+                    <span class="input-icon">📝</span>
+                    <input type="text" name="title" placeholder="Title" class="note-input" required>
+                </div>
+
+                {# Обгортка для Textarea (якщо потрібно) #}
+                <div class="textarea-wrapper">
+                    <textarea name="content" placeholder="The text of the note..." class="note-textarea" required></textarea>
+                </div>
+
+                <button type="submit" class="note-button btn-gradient">
+                    <span class="button-icon">➕</span> Create a note
+                </button>
+            </form>
+
+            <hr class="section-divider notes-divider">
+
+            <div id="notes-list" class="notes-grid">
+                {% for note in notes %}
+                    {% include 'notes/partials/note_card.html' %}
+                {% empty %}
+                    <p class="empty-notes-text">There are no notes in this folder.</p>
+                {% endfor %}
+            </div>
+
+            {# Кнопка корзини залишається позиціонованою відносно viewport #}
+            <div style="text-align: right; margin: 20px;">
+              <a href="{% url 'notes:trash' %}" class="btn-trash-icon">🗑️</a>
+            </div>
+        </div>
+    </main>
 </div>
 {% endblock %}
 
-<!-- Скрипти — поза блоком content, це ок -->
+{# Скрипти залишаються в кінці #}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static 'notes/scripts.js' %}"></script>
 

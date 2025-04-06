@@ -1,23 +1,101 @@
+{% extends 'notes/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Note</title>
-    <link rel="stylesheet" href="{% static 'notes/style.css' %}">
-</head>
-<body>
-    <div class="container">
-        <h1 class="title">Edit note</h1>
 
-        <form method="POST" class="note-form">
-            {% csrf_token %}
-            <input type="text" name="title" value="{{ note.title }}" required>
-            <textarea name="content" required>{{ note.content }}</textarea>
-            <button type="submit">Save</button>
-        </form>
+{% block content %}
+<style>
+    /* Можна додати специфічні стилі сюди або в style.css */
+    .edit-note-container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 30px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 15px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        color: white;
+    }
+    .edit-note-container .title {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+    .edit-note-container form label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+    .edit-note-container form input[type="text"],
+    .edit-note-container form textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 8px;
+        background-color: rgba(255, 255, 255, 0.1);
+        font-size: 1em;
+        color: white;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        box-sizing: border-box;
+        margin-bottom: 15px;
+    }
+    .edit-note-container form textarea {
+        resize: vertical;
+        min-height: 150px;
+    }
+    .edit-note-container .btn {
+        /* Стиль кнопки вже є глобально */
+        display: block; /* Робимо блочною для центрування */
+        margin: 20px auto 0 auto; /* Відступи та центрування */
+    }
+     .edit-note-container ul.errorlist {
+        list-style: none;
+        padding: 5px 0 0 0;
+        margin: -10px 0 10px 0; /* Розміщення помилок */
+        color: #ffccd1;
+        font-size: 0.85em;
+    }
+    .back-link-edit {
+        display: block;
+        text-align: center;
+        margin-top: 25px;
+        color: rgba(255, 255, 255, 0.85);
+        text-decoration: underline;
+    }
 
-        <a href="{% url 'notes:index' %}" style="color:white; text-decoration:underline;">← Go back</a>
-    </div>
-</body>
-</html>
+</style>
+<div class="edit-note-container">
+    <h1 class="title">Edit Note</h1>
+
+    {# Відображаємо повідомлення, якщо вони є #}
+    {% if messages %}
+        <ul class="messages" style="margin-bottom: 20px;">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {# Рендеримо поля форми #}
+        <div class="form-group">
+             {{ form.title.label_tag }}
+             {{ form.title }}
+             {{ form.title.errors }}
+        </div>
+         <div class="form-group">
+             {{ form.content.label_tag }}
+             {{ form.content }}
+             {{ form.content.errors }}
+        </div>
+        {# Додаємо поле вибору папки #}
+        <div class="form-group">
+             {{ form.folder.label_tag }}
+             {{ form.folder }}
+             {{ form.folder.errors }}
+        </div>
+
+        <button type="submit" class="btn">Save Changes</button>
+    </form>
+
+    <a href="{% url 'notes:index' %}" class="back-link-edit">← Back to Notes</a>
+</div>
+{% endblock %}

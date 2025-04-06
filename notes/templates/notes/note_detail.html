@@ -1,0 +1,27 @@
+{% extends 'notes/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="note-detail-container">
+    
+    <div class="note-header">
+        <h1 class="note-detail-title">{{ note.title }}</h1>
+        <div class="note-actions">
+            <a href="{% url 'notes:edit_note' note.id %}" class="btn-action btn-edit" title="Edit Note">
+                <span>📝</span> {# Іконка редагування #}
+            </a>
+            <a href="{% url 'notes:delete_note' note.id %}" class="btn-action btn-delete" title="Delete Note" onclick="return confirm('Are you sure you want to move this note to the trash?');">
+                <span>🗑️</span> {# Іконка видалення #}
+            </a>
+        </div>
+    </div>
+
+    <div class="note-detail-content">
+        {# Використовуємо safe, якщо в нотатках може бути HTML, або linebreaksbr, якщо тільки текст #}
+        {{ note.content|linebreaksbr }}
+    </div>
+
+    {# Кнопку "Назад" прибрали #}
+
+</div>
+{% endblock %} 
